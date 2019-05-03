@@ -1,0 +1,8 @@
+{
+  "name": "MasterMind",
+  "version": "0.0.1",
+  "desription": "A mastermind using Node.js and Vue.js",
+  "dependencies":{
+    "socket.io": "^2.2.0",
+  }
+}
