@@ -101,12 +101,45 @@ table tr td.valid{
 table tr.selected td.valid {
   display: table-cell;
 }
-
+table tr.win td {
+  background: #43b456;
+}
+.page {
+  font-size: 0;
+}
+.page .game {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+.page .options {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+.result {
+  text-align: center;
+  font-size: 30px;
+}
 .pion{
   display: inline-block;
   width: 20px;
   height: 20px;
   border-radius: 10px;
   border: solid 1px #888;
-
+}
+.correct {
+  display:inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  border: solid 1px #888;
+  background: black;
+}
+.misplaced{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  border: solid 1px #888;
 }

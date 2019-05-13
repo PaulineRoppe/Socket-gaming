@@ -6,7 +6,8 @@
     <!-- Feuille de style -->
     <link rel="stylesheet" type="text/css" href="../style/MasterMind.css">
     <!-- Script JavaScript -->
-    <script src="../script/MM_rules.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="../script/MasterMind.js"></script>
     <script>
       window.onload = function() {
       MasterMind.initialise();
@@ -17,13 +18,16 @@
   <body>
     <div class="page">
         <h1>MasterMind</h1>
-        <div>
-          &nbsp;
-        </div>
         <div class="game">
-          <div id="plateau">
+          <table>
+            <tbody id="plateau">
+            </tbody>
+          </table>
 
-          </div>
+          <table>
+            <tbody id="colorSelector">
+            </tbody>
+          </table>
         </div>
         <div class="options">
           <div id="result" class="result">
@@ -33,6 +37,10 @@
 
           </div>
         </div>
+        <ul id="messages"></ul>
+          <form action="">
+            <input id="m" autocomplete="off" /><button>Send</button>
+          </form>
     </div>
   </body>
 </html>

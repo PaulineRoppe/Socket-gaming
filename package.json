@@ -2,7 +2,8 @@
   "name": "MasterMind",
   "version": "0.0.1",
   "desription": "A mastermind using Node.js and Vue.js",
-  "dependencies":{
+  "dependencies": {
     "socket.io": "^2.2.0",
-    "express": "^4.16.4",
+    "express": "^4.16.4"
+  }
 }
