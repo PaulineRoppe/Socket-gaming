@@ -38,7 +38,7 @@ var MasterMind = {
     5: '#fff000', //Jaune
     6: '#0005c2', //Bleu
     7: '#00d8d5', //Cyan
-    8: '#8a05fa', //Violet
+    8: '#01DC34', //Vert
   },
   //Paramètre du plateau de jeu
   settings: {
@@ -240,16 +240,16 @@ checkLine: function(line) {
 
   /* Verifie les pions mal places, parmi les pions restant */
   for (i = 1; i <= this.settings['columns']; i++) {
-  if (this.game['selection'][i] == 0) {
-  continue;
-  }
-  loc = soluce.indexOf(this.game['selection'][i]);
+    if (this.game['selection'][i] == 0) {
+      continue;
+    }
+    loc = soluce.indexOf(this.game['selection'][i]);
 
-  if (loc != -1) {
-  this.game['selection'][i] = 0;
-  soluce[loc] = 0;
-  misplaced++;
-  }
+    if (loc != -1) {
+      this.game['selection'][i] = 0;
+      soluce[loc] = 0;
+      misplaced++;
+    }
   }
 
   /* Affiche le bon nombre de pions bien places */
