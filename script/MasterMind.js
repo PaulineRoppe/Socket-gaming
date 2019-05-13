@@ -1,5 +1,35 @@
 var MasterMind = {
   name: 'MasterMind',
+  difficulties: {
+    easy: {
+      lines: 12,
+      columns: 4,
+      colors: 5,
+      double: false,
+      locCheck: true,
+    },
+    normal: {
+      lines: 12,
+      columns: 4,
+      colors: 6,
+      double: true,
+      locCheck: true,
+    },
+    hard: {
+      lines: 12,
+      columns: 5,
+      colors: 8,
+      double: true,
+      locCheck: false,
+    },
+    extreme: {
+      lines: 12,
+      columns: 6,
+      colors: 8,
+      double: true,
+      locCheck: false,
+    },
+  },
   colors: {
     1: '#000000', //Noir
     2: '#FFFFFF', //Blanc
@@ -7,6 +37,8 @@ var MasterMind = {
     4: '#ff9600', //Orange
     5: '#fff000', //Jaune
     6: '#0005c2', //Bleu
+    7: '#00d8d5', //Cyan
+    8: '#8a05fa', //Violet
   },
   //Paramètre du plateau de jeu
   settings: {
@@ -23,10 +55,11 @@ var MasterMind = {
   },
   //fct d'initialistation du jeu
   initialise: function( ){
-    this.startGame();
+    this.startGame('easy');
   },
   //fct startGame()
-  startGame: function(){
+  startGame: function(difficulty){
+    this.settings = this.difficulties[difficulty];
     this.drawGameBoard();
     this.resetGame();
     this.defineSoluce();
@@ -101,12 +134,16 @@ var MasterMind = {
     document.getElementById('turn-1-1').className = 'selected';
   },
 
-  //calcul de la solution de couleur
+  //calcul de la solution de couleur et verifie si la couleur ne fait pas
+  //déjà parie des solutions
   defineSoluce: function(){
     this.game['soluce'] = new Array();
     for (i = 1; i <= this.settings['columns']; i++)
     {
       color = parseInt(Math.random()* this.settings['colors'])+1;
+      while (this.settings['double'] == false && this.game['soluce'].indexOf(color) != -1) {
+        color = parseInt(Math.random() * this.settings['colors']) + 1;
+      }
       this.game['soluce'][i] = color;
     }
   },
@@ -163,98 +200,137 @@ var MasterMind = {
     document.getElementById('turn-'+ line + '-' + this.game['column']).className = 'selected';
   },
 
-  checkLine: function(line)
-  {
-    // Verifie si la ligne est la bonne et si la partie est tjr active
-    if (line != this.game['turn']) {
-      return;
-    }
 
-    //Verifie si la ligne a été complétement remplie
-    for (i = 1; i< this.settings['columns']; i++){
-      if (!this.game['selection'][i]){
-        return;
-      }
-    }
+checkLine: function(line) {
+  /* Verifie si la ligne est bien la ligne courante, verifie en meme temps, si la partie est toujours active */
+  if (line != this.game['turn']) {
+  return;
+  }
 
-    //Duplique la solution pour pouvoir la modifier
-    //sans modifier l'originale
-    soluce = this.game['soluce'].slice(0);
+  /* Verifie que la ligne a ete entierement remplie par le joueur */
+  for (i = 1; i <= this.settings['columns']; i++) {
+  if (!this.game['selection'][i]) {
+  return;
+  }
+  }
 
-    //Initialise les var de verification
-    correct = 0;
-    misplaced = 0;
+  /* Duplique la solution pour pouvoir la modifier sans alterer l originale */
+  soluce = this.game['soluce'].slice(0);
 
-    for (i = 1; i <+ this.settinhs['columns']; i++){
-      if(this.game['selection'][i] == soluce[i]) {
-        correct++;
-        soluce[i] = 0;
-        this.game['selection'][i] = 0;
-      }
-    }
+  /* Verifie le mode de verification */
+  if (this.settings['locCheck'] === false) {
+  /* Initialise les variables de verification */
+  correct = 0;
+  misplaced = 0;
 
-    //Verifie les pions bien placé
-    if (correct == this.settings['columns']){
-      //Utilise le return pour sortir de la methode et stopper la verification
-      return this.displayWin();
-    }
+  /* Verifie les pions bien places */
+  for (i = 1; i <= this.settings['columns']; i++) {
+  if (this.game['selection'][i] == soluce[i]) {
+  correct++;
+  soluce[i] = 0;
+  this.game['selection'][i] = 0;
+  }
+  }
 
-    //Verifie les pions mal placé, parmi les autres
-    for (i = 1; i <= this.setting['columns']; i++)
-    {
-      if (this.game['selection'][i] == 0) {
-        continue;
-      }
-      loc = soluce.indexOf(this.game['selection'][i]);
+  /* Verifie si tous les pions sont biens places, et auquel cas, afficher la victoire */
+  if (correct == this.settings['columns']) {
+  /* Utilise un return pour sortir de la methode et ne pas continuer la verification */
+  return this.displayWin();
+  }
 
-      if(loc != -1) {
+  /* Verifie les pions mal places, parmi les pions restant */
+  for (i = 1; i <= this.settings['columns']; i++) {
+  if (this.game['selection'][i] == 0) {
+  continue;
+  }
+  loc = soluce.indexOf(this.game['selection'][i]);
+
+  if (loc != -1) {
+  this.game['selection'][i] = 0;
+  soluce[loc] = 0;
+  misplaced++;
+  }
+  }
+
+  /* Affiche le bon nombre de pions bien places */
+  for (i = 1; i <= correct; i++) {
+  pion = document.createElement('div');
+  pion.className = 'correct';
+                  document.getElementById('result-'+this.game['turn']+'-'+i).appendChild(pion);
+  }
+
+  /* Affiche le bon nombre de pions mal places */
+  for (j = i; j < i+misplaced; j++) {
+  pion = document.createElement('div');
+  pion.className = 'misplaced';
+                  document.getElementById('result-'+this.game['turn']+'-'+j).appendChild(pion);
+  }
+
+  } else {
+  correct = 0;
+
+  /* Verifie les pions bien places */
+  for (i = 1; i <= this.settings['columns']; i++) {
+  if (this.game['selection'][i] == this.game['soluce'][i]) {
+  correct++;
+  this.game['selection'][i] = 0;
+  soluce[i] = 0;
+
+  /* Indique le pion bien place */
+  pion = document.createElement('div');
+  pion.className = 'correct';
+  document.getElementById('result-'+this.game['turn']+'-'+i).appendChild(pion);
+  }
+  }
+
+  /* Verifie si tous les pions sont biens places, et auquel cas, afficher la victoire */
+  if (correct == this.settings['columns'])
+  return this.displayWin();
+
+  /* Verifie les pions mal places, parmi les pions restant */
+  for (i = 1; i <= this.settings['columns']; i++) {
+    if (this.game['selection'][i] == 0)
+    continue;
+    loc = soluce.indexOf(this.game['selection'][i]);
+
+    if (loc != -1) {
         this.game['selection'][i] = 0;
         soluce[loc] = 0;
-        misplaced++;
+
+        /* Indique le pion mal place */
+        pion = document.createElement('div');
+        pion.className = 'misplaced';
+        document.getElementById('result-'+this.game['turn']+'-'+i).appendChild(pion);
       }
     }
+  }
 
-    //affiche le nombre de pions bien placé
-    for (i = 1; i <= correct; i++)
-    {
-      pion = document.createElement('div');
-      pion.className = 'correct';
-      document.getElementById('result-' + this.game['turn'] + '-' + i).appendChild(pion);
-    }
+  /* Prepare le jeu pour le tour suivant */
 
-    //Affiche le nombre de pions mal placé
-    for (j = i; j < i+misplaced; j++)
-    {
-      pion = document.createElement('div');
-      pion.className = 'misplaced';
-      document.getElementById('result-' + this.game['turn']+'-'+j).appendChild(pion);
-    }
+  /* Re-initialise la selection du joueur */
+  this.game['selection'] = new Array();
 
-    //prepare le jeu pour le tour suivant
-    //reinitialise la selection du joueur
-    this.game['selection'] = new Array();
+  /* Retire le marquage visuel de la ligne courante  */
+  document.getElementById('turn-'+this.game['turn']).className = '';
 
-    //Retire le marquage visuel de la ligne courante
-    document.getElementById('turn-' + this.game['turn']).className = '';
+  /* Verifie que la ligne n etait pas la derniere, si auquel cas, afficher la defaite */
+  if (this.game['turn'] == this.settings['lines']) {
+  /* Utilise un return pour sortir de la methode et ne pas continuer la verification */
+  return this.displayLose();
+  }
 
-    //Check si c'est la last ligne, si oui alors défaite
-    if (this.game['turn'] == this.settings['lines'])
-    {
-      return this.displayLose();
-    }
+  /* Deplace le curseur sur la ligne suivante */
+  this.game['turn'] ++;
 
-    //deplace le curseur sur la next line
-    this.game['turn'] ++;
+  /* Applique le marquage sur la nouvelle ligne courante */
+  document.getElementById('turn-'+this.game['turn']).className = 'selected';
 
-    //apllique le marquage sur la nvlle ligne
-    document.getElementById('turn-' + this.game['turn']).className = 'selected';
+  /* Place le curseur sur la premiere case */
+  this.game['column'] = 1;
 
-    //place le curseur sur la 1ere case
-    this.game['column'] = 1;
-
-    //applique le marquage sur la 1ere case
-    document.getElementById('turn-' + this.game['turn']+ '-1').className = 'selected';
-  },
+  /* Applique le marquage sur la premiere case */
+  document.getElementById('turn-'+this.game['turn']+'-1').className = 'selected';
+},
 
   displayWin: function() {
     //Affiche le res dans l'espace dédié
