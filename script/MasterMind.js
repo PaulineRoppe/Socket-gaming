@@ -37,8 +37,8 @@ var MasterMind = {
     4: '#ff9600', //Orange
     5: '#fff000', //Jaune
     6: '#0005c2', //Bleu
-    7: '#00d8d5', //Cyan
-    8: '#01DC34', //Vert
+    7: '#00BFFF', //Cyan
+    8: '#006400', //Vert
   },
   //Paramètre du plateau de jeu
   settings: {
