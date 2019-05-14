@@ -2,28 +2,28 @@ var MasterMind = {
   name: 'MasterMind',
   difficulties: {
     easy: {
-      lines: 12,
+      lines: 14,
       columns: 4,
       colors: 5,
       double: false,
       locCheck: true,
     },
     normal: {
-      lines: 12,
+      lines: 14,
       columns: 4,
       colors: 6,
       double: true,
       locCheck: true,
     },
     hard: {
-      lines: 12,
+      lines: 14,
       columns: 5,
       colors: 8,
       double: true,
       locCheck: false,
     },
     extreme: {
-      lines: 12,
+      lines: 14,
       columns: 6,
       colors: 8,
       double: true,
@@ -42,7 +42,7 @@ var MasterMind = {
   },
   //Paramètre du plateau de jeu
   settings: {
-    lines: 16, //lignes dispo pour arriver au résultat
+    lines: 14, //lignes dispo pour arriver au résultat
     columns: 4, //colonnes de couleurs
     colors: 6, //coulerus dispo
   },
@@ -54,7 +54,7 @@ var MasterMind = {
     soluce: new Array(),
   },
   //fct d'initialistation du jeu
-  initialise: function( ){
+  initialise: function(){
     this.startGame('easy');
   },
   //fct startGame()
@@ -125,7 +125,7 @@ var MasterMind = {
     }
     colorSelector.appendChild(line);
   },
-  //reinitialise les données du jeu (en remettant le joueur sur la 1ère ligne et colone)
+  //reinitialise les données du jeu (en remettant le joueur sur la 1ère ligne et colonne)
   resetGame: function() {
     this.game['turn'] = 1;
     this.game['column'] = 1;
@@ -225,11 +225,11 @@ checkLine: function(line) {
 
   /* Verifie les pions bien places */
   for (i = 1; i <= this.settings['columns']; i++) {
-  if (this.game['selection'][i] == soluce[i]) {
-  correct++;
-  soluce[i] = 0;
-  this.game['selection'][i] = 0;
-  }
+    if (this.game['selection'][i] == soluce[i]) {
+      correct++;
+      soluce[i] = 0;
+      this.game['selection'][i] = 0;
+    }
   }
 
   /* Verifie si tous les pions sont biens places, et auquel cas, afficher la victoire */

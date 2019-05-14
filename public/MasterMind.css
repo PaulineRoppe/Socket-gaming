@@ -99,6 +99,7 @@ table td{
   border: solid 1px #888;
   padding: 4px;
   text-align: center;
+  min-width: 20px;
 }
 table tr.selected td{
   background: #bfd1ff;
