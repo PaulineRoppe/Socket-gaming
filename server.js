@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000
 server({ port }, [
   get('/', ctx => '<h1>Hello you!</h1>'),
   socket('message', ctx => {
+    console.log(1000)
     // Send the message to every socket
     ctx.io.emit('message', ctx.data)
   }),

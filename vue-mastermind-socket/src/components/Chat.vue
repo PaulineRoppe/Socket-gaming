@@ -3,19 +3,21 @@
     <md-app>
       <md-app-toolbar class="md-primary">
         <div class="md-toolbar-row">
-          <span class="md-title">My Chat App</span>
+          <span class="md-title">Chat</span>
         </div>
       </md-app-toolbar>
       <md-app-content>
-        <md-field :class="messageClass">
+        <md-field class="messageClass">
           <label>Messages</label>
-          <md-textarea v-model="textarea" disabled></md-textarea>
+          <md-textarea rows='300' v-model="textarea" disabled></md-textarea>
         </md-field>
+
         <md-field>
           <label>Your message</label>
           <md-input v-model="message"></md-input>
-          <md-button class="md-primary md-raised" v-on:click="sendMessage()">Submit</md-button>
         </md-field>
+          <md-button class="md-primary md-raised" v-on:click="sendMessage()">OK</md-button>
+
       </md-app-content>
     </md-app>
   </div>
@@ -52,11 +54,32 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.md-app {
-  height: 800px;
-  border: 1px solid rgba(#000, .12);
+.md-app{
+  max-width:20%;
+  display:flex;
+  justify-content:flex-end;
+  margin-left:80%;
+  //margin-right:10px;
+  height:100vh;
 }
+
+.md-button {
+  width:16vw;
+}
+
+.page-container {
+  background-image: url("../assets/imagefond.png");
+  background-repeat: no-repeat;
+  background-size:contain;
+  height:100vh;
+}
+
 .md-textarea {
-  height: 300px;
+  min-height:56vh !important;
 }
+
+.md-content {
+  background-color:grey;
+}
+
 </style>
