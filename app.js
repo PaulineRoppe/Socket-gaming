@@ -1,5 +1,3 @@
-///////////2eme version du Web serveur//////
-
 const express = require('express');
 const app = express();
 const path = require('path');

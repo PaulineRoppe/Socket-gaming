@@ -6,12 +6,21 @@
     <!-- Feuille de style -->
     <link rel="stylesheet" type="text/css" href="./MasterMind.css">
     <!-- Script JavaScript -->
+    <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="./MasterMind.js"></script>
     <script>
       window.onload = function() {
       MasterMind.initialise();
       }
+    </script>
+    <script>
+      // var socket = io.connect('http://localhost');//remplacer par l'adresse sur Heroku
+      var socket = io('/roomGame');
+      socket.on('news', function(data) {
+        console.log(data);
+        socket.emit('my other event', {my: 'data'});
+      })
     </script>
   </head>
 
@@ -49,10 +58,10 @@
             </div>
           </div>
         </div>
-        <!-- <ul id="messages"></ul>
-          <form action="">
-            <input id="m" autocomplete="off" /><button>Send</button>
-          </form> -->
     </div>
+
+    <script type="text/javascript">
+
+    </script>
   </body>
 </html>
