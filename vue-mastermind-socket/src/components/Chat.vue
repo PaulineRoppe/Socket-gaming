@@ -14,7 +14,7 @@
 
         <md-field>
           <label>Your message</label>
-          <md-input v-model="message"></md-input>
+          <md-input v-model="message" v-on:keyup.enter="sendMessage()"></md-input>
         </md-field>
           <md-button class="md-primary md-raised" v-on:click="sendMessage()">OK</md-button>
 
@@ -22,6 +22,7 @@
     </md-app>
   </div>
 </template>
+
 
 <script>
   export default {
@@ -45,15 +46,19 @@
     }, methods: {
       sendMessage () {
         // this will emit a socket event of type `function`
-        this.$socket.emit('message', this.message) // send the content of the message bar to the server
-        this.message = '' // empty the message bar
+
+        if (this.message.localeCompare("") != 0 && this.message.localeCompare(" ") != 0){
+          this.$socket.emit('message', this.message) // send the content of the message bar to the server
+          this.message = '' // empty the message bar
+        }
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
+/* Add "scoped" attribute to limit CSS to this component only */
 .md-app{
   max-width:20%;
   display:flex;
@@ -79,7 +84,6 @@
 }
 
 .md-content {
-  background-color:grey;
+  background-color:white;
 }
-
 </style>

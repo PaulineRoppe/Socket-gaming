@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>MasterMind</title>
+    <!-- Feuille de style -->
+    <link rel="stylesheet" type="text/css" href="./MasterMind.css">
+    <!-- Script JavaScript -->
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="./MasterMind.js"></script>
+    <script>
+      window.onload = function() {
+      MasterMind.initialise();
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="page">
+        <h1>MasterMind</h1>
+        <div >
+          &nbsp;
+        </div>
+        <div class="game">
+          <table>
+            <tbody id="plateau">
+            </tbody>
+          </table>
+
+          <table>
+            <tbody id="colorSelector">
+            </tbody>
+          </table>
+        </div>
+        <div class="options">
+          <div id="result" class="result">  </div>
+          <div class="menus">
+            <div class="menu" onclick="MasterMind.startGame('easy');">
+              <p>"Facile"</p>
+            </div>
+            <div class="menu" onclick="MasterMind.startGame('normal');">
+              <p>"Normal"</p>
+            </div>
+            <div class="menu" onclick="MasterMind.startGame('hard');">
+              <p>"Difficile"</p>
+            </div>
+            <div class="menu" onclick="MasterMind.startGame('extreme');">
+              <p>"Extrême"</p>
+            </div>
+          </div>
+        </div>
+        <!-- <ul id="messages"></ul>
+          <form action="">
+            <input id="m" autocomplete="off" /><button>Send</button>
+          </form> -->
+    </div>
+  </body>
+</html>
